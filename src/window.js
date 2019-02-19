@@ -115,6 +115,7 @@ class Window extends EventEmitter {
   get stylesheets() {
     let { theme } = this
     return [
+      `../lib/stylesheets/${process.platform}/${this.type}.css`,
       `../lib/stylesheets/${process.platform}/${this.type}-${theme}.css`,
       join(ARGS.home, 'style.css'),
       join(ARGS.home, `style-${theme}.css`)
