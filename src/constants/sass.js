@@ -235,6 +235,11 @@ const PREFS = {
   HEIGHT: 580
 }
 
+const PRINT = {
+  WIDTH: 600,
+  HEIGHT: 300
+}
+
 const WIZARD = {
   WIDTH: 456,
   HEIGHT: 580
@@ -266,6 +271,7 @@ module.exports =  {
   PHOTO,
   POPUP,
   PREFS,
+  PRINT,
   PROJECT,
   ROW,
   SCROLLBAR,

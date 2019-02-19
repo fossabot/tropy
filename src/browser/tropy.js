@@ -38,6 +38,7 @@ const WIN = SASS.PROJECT
 const WIZ = SASS.WIZARD
 const ABT = SASS.ABOUT
 const PREFS = SASS.PREFS
+const PRINT = SASS.PRINT
 
 const H = new WeakMap()
 const T = new WeakMap()
@@ -284,6 +285,25 @@ class Tropy extends EventEmitter {
       })
 
     return this
+  }
+
+  print() {
+    let preview = open('print', this.hash, {
+      width: PRINT.WIDTH,
+      height: PRINT.HEIGHT
+    })
+
+    preview.once('closed', () => {
+      preview = undefined
+    })
+
+    preview.webContents.once('did-finish-load', () => {
+      // HACK #16219
+      preview.webContents.executeJavaScript('window.print()')
+      //preview.webContents.print({}, () => {
+      //  preview.close()
+      //})
+    })
   }
 
   restore() {
@@ -631,6 +651,10 @@ class Tropy extends EventEmitter {
 
     this.on('app:open-plugins-folder', () => {
       shell.showItemInFolder(this.plugins.configFile)
+    })
+
+    this.on('app:print', () => {
+      this.print()
     })
 
     this.on('app:install-plugin', async (win) => {

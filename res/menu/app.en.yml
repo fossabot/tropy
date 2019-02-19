@@ -41,6 +41,11 @@ en:
           label: 'Consolidate Photo Library'
           command: 'app:consolidate-photo-library'
         - type: 'separator'
+        - &print
+          label: 'Print'
+          accelerator: 'CmdOrCtrl+P'
+          command: 'app:print'
+        - type: 'separator'
         - label: 'Close'
           accelerator: 'CmdOrCtrl+W'
           role: 'close'
@@ -222,6 +227,8 @@ en:
         - type: 'separator'
         - *import
         - *consolidate
+        - type: 'separator'
+        - *print
         - type: 'separator'
         - label: 'Close'
           accelerator: 'Command+W'
