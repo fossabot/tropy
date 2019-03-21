@@ -68,6 +68,7 @@ class Tropy extends EventEmitter {
     this.ctx = new ContextMenu(this)
 
     this.updater = new Updater(this)
+    this.windows = {}
 
     prop(this, 'cache', {
       value: new Cache(app.getPath('userData'), 'cache')
@@ -287,23 +288,25 @@ class Tropy extends EventEmitter {
     return this
   }
 
-  print() {
-    let preview = open('print', this.hash, {
-      width: PRINT.WIDTH,
-      height: PRINT.HEIGHT
-    })
+  print(items) {
+    if (!items) return
 
-    preview.once('closed', () => {
-      preview = undefined
-    })
+    if (this.windows.print == null) {
+      this.windows.print = open('print', this.hash, {
+        width: PRINT.WIDTH,
+        height: PRINT.HEIGHT
+      })
+        .once('closed', () => {
+          this.windows.print = undefined
+        })
 
-    preview.webContents.once('did-finish-load', () => {
-      // HACK #16219
-      preview.webContents.executeJavaScript('window.print()')
-      //preview.webContents.print({}, () => {
-      //  preview.close()
-      //})
-    })
+      ipc.once('print:mount', () => {
+        this.windows.print.send('print', items)
+      })
+
+    } else {
+      this.windows.print.send('print', items)
+    }
   }
 
   restore() {
@@ -653,8 +656,8 @@ class Tropy extends EventEmitter {
       shell.showItemInFolder(this.plugins.configFile)
     })
 
-    this.on('app:print', () => {
-      this.print()
+    this.on('app:print-items', () => {
+      this.dispatch(act.item.print('selected'), this.win)
     })
 
     this.on('app:install-plugin', async (win) => {
@@ -746,6 +749,16 @@ class Tropy extends EventEmitter {
 
     ipc.on('cmd', (event, command, ...params) => {
       this.emit(command, BrowserWindow.fromWebContents(event.sender), ...params)
+    })
+
+    ipc.on('print', (_, items) => this.print(items))
+
+    ipc.on('print:ready', () => {
+      // HACK #16219
+      this.windows.print.webContents.executeJavaScript('window.print()')
+      //.webContents.print({}, () => {
+      //  preview.close()
+      //})
     })
 
     ipc.on(PROJECT.OPENED, (_, project) => this.hasOpened(project))

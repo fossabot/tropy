@@ -96,6 +96,14 @@ module.exports = {
     }
   },
 
+  print(payload, meta) {
+    return {
+      type: ITEM.PRINT,
+      payload,
+      meta: { cmd: 'project', ...meta }
+    }
+  },
+
   remove(payload, meta) {
     return {
       type: ITEM.REMOVE,

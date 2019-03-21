@@ -44,7 +44,7 @@ en:
         - &print
           label: 'Print'
           accelerator: 'CmdOrCtrl+P'
-          command: 'app:print'
+          command: 'app:print-items'
         - type: 'separator'
         - label: 'Close'
           accelerator: 'CmdOrCtrl+W'

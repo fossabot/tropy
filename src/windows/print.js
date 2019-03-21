@@ -1,19 +1,8 @@
 'use strict'
 
-const { $, html } = require('../dom')
+const React = require('react')
+const { render } = require('react-dom')
+const { $ } = require('../dom')
+const { PrintContainer } = require('../components/print')
 
-/* eslint-disable no-multi-str */
-html($('main'), '\
-  <div class="page">\
-    <img src="../static/images/landscape.png" width="4000" height="2000">\
-  </div>\
-  <div class="page">\
-    <img src="../static/images/portrait.png" width="2000" height="4000">\
-  </div>\
-  <div class="page">\
-    <img src="../static/images/landscape-sm.png" width="400" height="200">\
-  </div>\
-  <div class="page">\
-    <img src="../static/images/portrait-sm.png" width="200" height="400">\
-  </div>\
-')
+render(<PrintContainer/>, $('main'))

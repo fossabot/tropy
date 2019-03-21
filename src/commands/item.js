@@ -1,6 +1,6 @@
 'use strict'
 
-const { clipboard } = require('electron')
+const { clipboard, ipcRenderer: ipc } = require('electron')
 const assert = require('assert')
 const { warn, verbose } = require('../common/log')
 const { DuplicateError } = require('../common/error')
@@ -24,6 +24,7 @@ const {
   getGroupedItems,
   getItemTemplate,
   getPhotoTemplate,
+  getPrintableItems,
   getTemplateValues
 } = require('../selectors')
 
@@ -205,6 +206,14 @@ class Load extends Command {
   }
 }
 
+class Print extends Command {
+  static get ACTION() { return ITEM.PRINT }
+
+  *exec() {
+    let items = yield select(getPrintableItems)
+    if (items.length) ipc.send('print', items)
+  }
+}
 
 class Restore extends Command {
   static get ACTION() { return ITEM.RESTORE }
@@ -539,6 +548,7 @@ module.exports = {
   Restore,
   TemplateChange,
   Preview,
+  Print,
   AddTag,
   RemoveTag,
   ToggleTags,

@@ -12,6 +12,7 @@ module.exports = {
   LOAD: 'item.load',
   MERGE: 'item.merge',
   OPEN: 'item.open',
+  PRINT: 'item.print',
   REMOVE: 'item.remove',
   RESTORE: 'item.restore',
   SELECT: 'item.select',
