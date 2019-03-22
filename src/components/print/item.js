@@ -1,14 +1,15 @@
 'use strict'
 
 const React = require('react')
+const { Photo } = require('./photo')
 const { arrayOf, object } = require('prop-types')
 
 const Item = ({ photos }) => (
-  <div className="item page">
+  <div className="item">
     {photos.map(photo =>
-      <img
-        key={photo.id}
-        src={photo.path}/>)}
+      <Photo
+        {...photo}
+        key={photo.id}/>)}
   </div>
 )
 
