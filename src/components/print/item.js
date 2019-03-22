@@ -5,12 +5,10 @@ const { Photo } = require('./photo')
 const { arrayOf, object } = require('prop-types')
 
 const Item = ({ photos }) => (
-  <div className="item">
-    {photos.map(photo =>
-      <Photo
-        {...photo}
-        key={photo.id}/>)}
-  </div>
+  photos.map(photo =>
+    <Photo
+      {...photo}
+      key={photo.id}/>)
 )
 
 Item.propTypes = {
